@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Caches (web research HTML, screenshots, verify results)
+.cache/
+.claude/
+
+# Output from Q2 runners
+output/
+
+# Browser session data (Playwright persistent contexts)
+.browser_sessions/
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store

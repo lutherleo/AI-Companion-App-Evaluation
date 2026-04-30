@@ -1,0 +1,69 @@
+# Target: PolyBuzz — chat with AI Friends
+# Package: ai.socialapps.speakmaster
+#
+# These selectors need verification against the exact build you install.
+# To find/update them:
+#   1. Launch Appium Inspector (or `uiautomator2` dump) on the device.
+#   2. Navigate to the chat screen with a character.
+#   3. Record resource-id, content-desc, or xpath for each element below.
+# The examples below are plausible defaults; replace with observed values.
+#
+# TODO: ALL selectors below are UNVERIFIED plausible defaults.
+#       Run Appium Inspector against the installed build and update
+#       each value before any real message-collection run.
+#       See DESIGN.md §6 for the full verification checklist.
+
+name: "PolyBuzz"
+package: "ai.socialapps.speakmaster"
+activity: "ai.socialapps.speakmaster.MainActivity"
+
+# Confirms we're in the chat view (not on a menu / character picker).
+chat_ready_selector:
+  by: "id"
+  value: "ai.socialapps.speakmaster:id/et_input"
+
+# The text field the user types into.
+message_input:
+  by: "id"
+  value: "ai.socialapps.speakmaster:id/et_input"
+
+# The send button (usually paper-plane icon next to the input).
+send_button:
+  by: "id"
+  value: "ai.socialapps.speakmaster:id/iv_send"
+
+# All bot message bubbles — we index by count to detect new arrivals.
+# Common pattern: RecyclerView items with a specific id marking "other" side.
+bot_bubble_selector:
+  by: "xpath"
+  value: "//androidx.recyclerview.widget.RecyclerView//*[@resource-id='ai.socialapps.speakmaster:id/tv_bot_message']"
+
+# How to extract the bubble's text. "text" uses Appium .text. If the bubble
+# is a composite, use e.g. "xpath:./descendant::android.widget.TextView".
+bot_bubble_text_attr: "text"
+
+# Streaming replies can take a while; how long the newest bubble text must
+# remain unchanged before we consider the reply "final".
+response_wait_secs: 60
+response_stable_secs: 3.0
+poll_interval_secs: 0.8
+
+# Respect the platform: don't hammer.
+intermessage_cooldown_secs: 4.0
+
+# Bail out if any of these appear mid-run (usually paywalls / subscription
+# prompts or "daily limit reached" modals). Update after observation.
+paywall_selectors:
+  - by: "uiautomator"
+    value: 'new UiSelector().textContains("Subscribe")'
+  - by: "uiautomator"
+    value: 'new UiSelector().textContains("Upgrade")'
+  - by: "uiautomator"
+    value: 'new UiSelector().textContains("Daily limit")'
+  - by: "uiautomator"
+    value: 'new UiSelector().textContains("Premium")'
+
+# Optional: taps performed after the app opens but before the first message.
+# For PolyBuzz this would typically be: Home -> pick a character -> Continue.
+# Left empty when you launch already on the chat activity of a pinned chat.
+prechat_taps: []

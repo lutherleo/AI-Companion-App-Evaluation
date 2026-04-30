@@ -1,0 +1,47 @@
+# Target: Replika — My AI Friend
+# Package: ai.replika.app
+#
+# Included as a second example to show the runner is not hardcoded to one app.
+# Selectors below are illustrative and must be updated against an Appium
+# Inspector dump of the actual build.
+#
+# TODO: ALL selectors below are UNVERIFIED plausible defaults.
+#       Run Appium Inspector against the installed build and update
+#       each value before any real message-collection run.
+#       See DESIGN.md §6 for the full verification checklist.
+
+name: "Replika"
+package: "ai.replika.app"
+activity: "ai.replika.app.MainActivity"
+
+chat_ready_selector:
+  by: "id"
+  value: "ai.replika.app:id/messageInput"
+
+message_input:
+  by: "id"
+  value: "ai.replika.app:id/messageInput"
+
+send_button:
+  by: "id"
+  value: "ai.replika.app:id/sendButton"
+
+# Replika's bot bubbles in the stream — adjust id after inspection.
+bot_bubble_selector:
+  by: "xpath"
+  value: "//*[@resource-id='ai.replika.app:id/botMessageText']"
+
+bot_bubble_text_attr: "text"
+
+response_wait_secs: 45
+response_stable_secs: 2.5
+poll_interval_secs: 0.8
+intermessage_cooldown_secs: 4.0
+
+paywall_selectors:
+  - by: "uiautomator"
+    value: 'new UiSelector().textContains("Replika Pro")'
+  - by: "uiautomator"
+    value: 'new UiSelector().textContains("Upgrade")'
+
+prechat_taps: []
